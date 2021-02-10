@@ -8,7 +8,7 @@
   <artifactId>NodeJsJenkins</artifactId>
   <version>1.0</version>
 
-  <name>AngularSonar</name>
+  <name>NodeJsJenkins</name>
   <url>http://www.example.com</url>
 
   <properties>
