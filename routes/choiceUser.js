@@ -4,7 +4,7 @@ const express = require('express'),
 // get choiceusers list
 router.get('/list', function(req, res) {
   //retourner sous forme JSON : choiceuser {'name'....,bins:[{'bin1'},{'...'}]}
-  let sql = `Select choiceuser.ChoiceID, choiceuser.UserID from choiceuser`;
+  let sql = `Select ChoiceUser.ChoiceID, ChoiceUser.UserID from ChoiceUser`;
   db.query(sql, function(err, data, fields) {
     res.json({
       status: 200,
@@ -16,7 +16,7 @@ router.get('/list', function(req, res) {
 
 // create new choiceuser
 router.post('/new', function(req, res) {
-  let sql = `INSERT INTO choiceuser(ChoiceID,UserID) VALUES (?)`;
+  let sql = `INSERT INTO ChoiceUser(ChoiceID,UserID) VALUES (?)`;
   let values = [
     req.body.choiceID,
     req.body.userID,
@@ -53,13 +53,13 @@ router.get('/edit/(:id)', function(req, res, next) {
 })
 
 // update book data
-router.post('/update/:choiceid/:userid', function(req, res, next) {
+router.post('/update/:choiceID/:userID', function(req, res, next) {
 
-  let choiceid = req.params.choiceid;
-  let userid = req.params.userid;
+  let choiceid = req.params.choiceID;
+  let userid = req.params.userID;
   let errors = false;
 
-  if(choiceid.length === 0) {
+  if(choiceid === 0) {
       errors = true;
       
       // set flash message
@@ -78,7 +78,7 @@ router.post('/update/:choiceid/:userid', function(req, res, next) {
         userid: userid
       }
       // update query
-      db.query('UPDATE choiceuser SET ? WHERE ChoiceID = ' + choiceid +' AND UserID = '+ userid, form_data, function(err, result) {
+      db.query('UPDATE ChoiceUser SET ? WHERE UserID = '+ userid, form_data, function(err, result) {
           //if(err) throw err
           if (err) {
               // set flash message
@@ -102,7 +102,7 @@ router.delete('/delete/(:id)', function(req, res, next) {
 
   let id = req.params.id;
    
-  db.query('DELETE FROM choiceuser WHERE UserID = ' + id, function(err, result) {
+  db.query('DELETE FROM ChoiceUser WHERE UserID = ' + id, function(err, result) {
       //if(err) throw err
       if (err) {
           // set flash message

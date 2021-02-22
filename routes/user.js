@@ -4,7 +4,7 @@ const express = require('express'),
 // get userss list
 router.get('/list', function(req, res) {
   //retourner sous forme JSON : users {'name'....,bins:[{'bin1'},{'...'}]}
-  let sql = `Select users.id_user, users.Login, users.isAdmin, users.password from users`;
+  let sql = `Select Users.Id, Users.Login, Users.IsAdmin, Users.Password from Users`;
   db.query(sql, function(err, data, fields) {
     res.json({
       status: 200,
@@ -16,7 +16,7 @@ router.get('/list', function(req, res) {
 
 // create new users
 router.post('/new', function(req, res) {
-  let sql = `INSERT INTO users(login,password,isAdmin) VALUES (?)`;
+  let sql = `INSERT INTO Users(Login,Password,IsAdmin) VALUES (?)`;
   let values = [
     req.body.login,
     req.body.password,
@@ -57,10 +57,12 @@ router.get('/edit/(:id)', function(req, res, next) {
 router.post('/update/:id', function(req, res, next) {
 
   let id = req.params.id;
-  let name = req.body.title;
+  let login = req.body.login;
+  let password = req.body.password;
+  let isAdmin = req.body.isAdmin;
   let errors = false;
 
-  if(title.length === 0) {
+  if(login.length === 0) {
       errors = true;
       
       // set flash message
@@ -75,7 +77,9 @@ router.post('/update/:id', function(req, res, next) {
   if( !errors ) {   
 
       var form_data = {
-        title: title,
+        login: login,
+        password: password,
+        isAdmin: isAdmin,
       }
       // update query
       db.query('UPDATE Users SET ? WHERE id = ' + id, form_data, function(err, result) {

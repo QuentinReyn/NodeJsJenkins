@@ -4,7 +4,7 @@ const express = require('express'),
 // get choices list
 router.get('/list', function(req, res) {
   //retourner sous forme JSON : choice {'name'....,bins:[{'bin1'},{'...'}]}
-  let sql = `Select Choice.ID, Choice.Title from choices Choice`;
+  let sql = `Select Choice.Id, Choice.Title from Choice`;
   db.query(sql, function(err, data, fields) {
     res.json({
       status: 200,
@@ -16,7 +16,7 @@ router.get('/list', function(req, res) {
 
 // create new choice
 router.post('/new', function(req, res) {
-  let sql = `INSERT INTO choice(Title) VALUES (?)`;
+  let sql = `INSERT INTO Choice(Title) VALUES (?)`;
   let values = [
     req.body.title,
   ];
@@ -55,7 +55,7 @@ router.get('/edit/(:id)', function(req, res, next) {
 router.post('/update/:id', function(req, res, next) {
 
   let id = req.params.id;
-  let name = req.body.title;
+  let title = req.body.title;
   let errors = false;
 
   if(title.length === 0) {
@@ -76,7 +76,7 @@ router.post('/update/:id', function(req, res, next) {
         title: title,
       }
       // update query
-      db.query('UPDATE choice SET ? WHERE id = ' + id, form_data, function(err, result) {
+      db.query('UPDATE Choice SET ? WHERE id = ' + id, form_data, function(err, result) {
           //if(err) throw err
           if (err) {
               // set flash message
@@ -100,7 +100,7 @@ router.delete('/delete/(:id)', function(req, res, next) {
 
   let id = req.params.id;
    
-  db.query('DELETE FROM choice WHERE id = ' + id, function(err, result) {
+  db.query('DELETE FROM Choice WHERE id = ' + id, function(err, result) {
       //if(err) throw err
       if (err) {
           // set flash message
